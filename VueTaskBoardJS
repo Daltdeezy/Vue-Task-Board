@@ -1,0 +1,62 @@
+const App = {
+  data() {
+    return {
+      inputPlaceHolder: '+',
+      newTask: '',
+      tasks: [],
+      inputClasses:{
+        "js-task-input":true, 
+        "border":true,
+        "border":true,
+        "w-full": true, 
+        "p-2":true,
+        "text-center":true,
+        "cursor-pointer":true, 
+        "hover:border-blue-400":true,
+      },
+    }
+  },// end data
+  computed: {
+    todoTasks() {
+      return this.tasks.filter(task => task.status === 'todo')
+    },
+    doingTasks() {
+      return this.tasks.filter(task => task.status === 'doing')
+    },
+    doneTasks() {
+      return this.tasks.filter(task => task.status === 'done')
+    },
+  }, // end computed
+  methods: {
+    createTask() {
+      this.tasks.push({
+        description: this.newTask, 
+        status: 'todo',
+        id: Math.random(),
+      })
+      this.newTask = '';
+    },
+    handleInputFocus(){
+      this.inputClasses["text-center"]=false;
+      this.inputPlaceHolder = "Enter Task";
+    },
+    handleInputBlur(){
+      this.inputClasses["text-center"]=true;
+      this.inputPlaceHolder = "+";
+    },
+    moveDoing(id){
+      let index = this.tasks.findIndex(object =>object.id===id);
+      this.tasks[index].status = "doing"
+    },
+    moveTD(id){
+      let index = this.tasks.findIndex(object =>object.id===id);
+      this.tasks[index].status = "todo"
+    },
+    moveDone(id){
+      let index = this.tasks.findIndex(object =>object.id===id);
+      this.tasks[index].status = "done"
+    },
+  } // end methods
+}
+
+Vue.createApp(App).mount('#app');
